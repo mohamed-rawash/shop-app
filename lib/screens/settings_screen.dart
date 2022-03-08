@@ -97,9 +97,9 @@ class SettingsScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: Colors.black),),
                   ),
-                  onTap: (){
-                    ShopAuthCubit.get(context).logout();
-                    if(state is SuccessLogout)
+                  onTap: ()async{
+                    await ShopAuthCubit.get(context).logout();
+                    if(ShopAuthCubit.get(context).logoutResponse!)
                       Navigator.of(context).pushReplacementNamed( LoginScreen.routeName);
                   },
                 ),

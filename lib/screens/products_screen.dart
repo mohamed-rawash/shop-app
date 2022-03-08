@@ -10,6 +10,7 @@ import 'package:shop_app/bloc/cubit/favorites_cubit.dart';
 import 'package:shop_app/bloc/cubit/home_cubit.dart';
 import 'package:shop_app/bloc/states/favorites_states.dart';
 import 'package:shop_app/bloc/states/home%20_states.dart';
+import 'package:shop_app/helper/toast-service.dart';
 import 'package:shop_app/models/home_data.dart';
 
 class ProductsScreen extends StatelessWidget {
@@ -201,9 +202,9 @@ class ProductsScreen extends StatelessWidget {
                       listener: (context, state) {
                         if (state is ChangeFavoritesSuccessState) {
                           if (!state.model.status!) {
-                            toast(context, state.model.message!, Colors.red);
+                            ToastService.toast(context, state.model.message!, Colors.red);
                           } else {
-                            toast(context, state.model.message!, Colors.green);
+                            ToastService.toast(context, state.model.message!, Colors.green);
                           }
                         }
                       },
@@ -242,21 +243,4 @@ class ProductsScreen extends StatelessWidget {
     );
   }
 
-  Future<ToastFuture> toast(
-      BuildContext context, String text, Color color) async {
-    return showToast(text,
-        context: context,
-        textStyle: const TextStyle(fontSize: 16, color: Colors.white),
-        textPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-        backgroundColor:
-            color == Colors.white ? Colors.red.withOpacity(0.3) : color,
-        animation: StyledToastAnimation.slideFromLeft,
-        reverseAnimation: StyledToastAnimation.slideFromLeft,
-        position: StyledToastPosition.bottom,
-        animDuration: const Duration(milliseconds: 300),
-        duration: const Duration(seconds: 3),
-        curve: Curves.easeIn,
-        reverseCurve: Curves.linear,
-        borderRadius: BorderRadius.circular(16));
-  }
 }

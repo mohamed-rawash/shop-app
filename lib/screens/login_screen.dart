@@ -9,16 +9,13 @@ import 'package:shop_app/bloc/cubit/auth_cubit.dart';
 import 'package:shop_app/bloc/states/auth_states.dart';
 import 'package:shop_app/helper/cache_helper.dart';
 import 'package:shop_app/screens/home.dart';
+import 'package:shop_app/screens/register_screen.dart';
 
 
 class LoginScreen extends StatelessWidget {
   static const String routeName = '/login_screen';
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  String email = '';
-  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +38,7 @@ class LoginScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        ShopAuthCubit _cubit = ShopAuthCubit.get(context);
         return Scaffold(
           backgroundColor: Colors.cyanAccent.withOpacity(0.8),
           body: Container(
@@ -68,7 +66,6 @@ class LoginScreen extends StatelessWidget {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            const SizedBox(height: 40),
                             TextFormField(
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(
@@ -80,7 +77,6 @@ class LoginScreen extends StatelessWidget {
                                 prefixIcon: Icon(Icons.email),
                                 hintText: 'Email',
                               ),
-                              controller: _emailController,
                               validator: (val){
                                 if(val!.isEmpty || !val.contains('@'))
                                   return 'Please enter an valid email';
@@ -89,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                                 return null;
                               },
                               onSaved: (val) {
-                                email = val!;
+                                _cubit.email = val!;
                               },
                             ),
                             const SizedBox(height: 10),
@@ -104,13 +100,12 @@ class LoginScreen extends StatelessWidget {
                                   prefixIcon: Icon(Icons.lock),
                                   hintText: 'Password',
                                 ),
-                                controller: _passwordController,
                                 validator: (val){
                                   if(val!.length < 5)
                                     return 'Password is too short';
                                   return null;
                                 },
-                                onSaved: (val) => password = val!,
+                                onSaved: (val) => _cubit.password = val!,
                                 obscureText: true
                             ),
                             const SizedBox(height: 20),
@@ -136,8 +131,7 @@ class LoginScreen extends StatelessWidget {
                                 onPressed: () async{
                                   if(_formKey.currentState!.validate()){
                                     _formKey.currentState!.save();
-                                    ShopAuthCubit.get(context).userLogin(email: _emailController.text, password: _passwordController.text);
-
+                                    _cubit.userLogin();
                                   }
                                 },
                               ),
@@ -168,7 +162,9 @@ class LoginScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          onPressed: () {}
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(RegisterScreen.routeName);
+                          }
                       ),
                     ],
                   ),

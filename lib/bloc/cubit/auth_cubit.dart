@@ -7,6 +7,8 @@ import 'package:shop_app/bloc/states/auth_states.dart';
 import 'package:shop_app/helper/cache_helper.dart';
 import 'package:shop_app/helper/dio_helper.dart';
 import 'package:shop_app/helper/end_point.dart';
+import 'package:shop_app/models/profile_model.dart';
+import 'package:shop_app/models/register_model.dart';
 import 'package:shop_app/models/user_model.dart';
 
 class ShopAuthCubit extends Cubit<ShopAuthStates> {
@@ -14,7 +16,13 @@ class ShopAuthCubit extends Cubit<ShopAuthStates> {
 
   static ShopAuthCubit get(context) => BlocProvider.of(context);
 
+  String? name;
+  String? email;
+  String? password;
+  String? phone;
   ShopLoginModel? loginModel;
+  bool? logoutResponse;
+
   bool isLogin = false;
   String? _token;
 
@@ -23,7 +31,32 @@ class ShopAuthCubit extends Cubit<ShopAuthStates> {
     emit(GetTokenState());
   }
 
-  void userLogin({email, password}) {
+  userRegister() {
+    emit(ShopRegisterLoadingState());
+    DioHelper.postData(
+      url: register,
+      data: {
+        'name': name,
+        'email': email,
+        'password': password,
+        'phone': phone,
+      },
+    ).then(
+      (value) {
+        print('=+= ' * 10);
+        print(value.data['data']);
+        print('=+= ' * 10);
+        emit(ShopRegisterSuccessState(RegisterModel.fromJson(value.data)));
+      },
+    ).catchError((error) {
+      print('-+- ' * 10);
+      print(error.toString());
+      print('-+- ' * 10);
+      emit(ShopRegisterErrorState(error.toString()));
+    });
+  }
+
+  void userLogin() {
     emit(ShopLoginLoadingState());
     DioHelper.postData(
       url: LOGIN,
@@ -37,16 +70,8 @@ class ShopAuthCubit extends Cubit<ShopAuthStates> {
   }
 
   logout() async {
-    try {
-      DioHelper.postData(url: profile, data: {
-        'fcm_token': _token,
-      }).then((value) {
-        CacheHelper.removeData(key: 'token');
-      });
-      emit(SuccessLogout());
-    } catch (e) {
-      emit(ErrorLogout());
-    }
+    logoutResponse = await CacheHelper.removeData(key: 'token');
+    emit(SuccessLogout());
   }
 
   userLoginState({required String key}) {

@@ -9,6 +9,7 @@ import 'package:shop_app/helper/dio_helper.dart';
 import 'package:shop_app/screens/home.dart';
 import 'package:shop_app/screens/login_screen.dart';
 import 'package:shop_app/screens/on_boarding_screen.dart';
+import 'package:shop_app/screens/register_screen.dart';
 import 'package:shop_app/widgets/thems.dart';
 
 import 'bloc/bloc_observer.dart';
@@ -67,6 +68,7 @@ class MyApp extends StatelessWidget {
               Home.routeName: (_) => Home(),
               OnBoardingScreen.routeName: (_) => OnBoardingScreen(),
               LoginScreen.routeName: (_) => LoginScreen(),
+              RegisterScreen.routeName: (_) => RegisterScreen(),
             },
           );
         }

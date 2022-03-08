@@ -9,3 +9,5 @@ const String FAVORITES = 'favorites';
 const String profile = 'profile';
 
 const String logout = 'logout';
+
+const String register = 'register';
