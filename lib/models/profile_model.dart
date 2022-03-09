@@ -6,7 +6,7 @@ class Profile {
   Profile.fromJson(Map<String, dynamic> json){
     status = json['status'];
     message = json['message'];
-    userData = UserData.fromJson(json['data']);
+    userData = json['data'] != null? UserData.fromJson(json['data']): null;
   }
 
   toJson(){

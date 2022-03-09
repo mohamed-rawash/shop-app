@@ -5,6 +5,7 @@ import 'package:loading_indicator/loading_indicator.dart';
 import 'package:shop_app/bloc/cubit/auth_cubit.dart';
 import 'package:shop_app/bloc/states/auth_states.dart';
 import 'package:shop_app/bloc/states/profile_states.dart';
+import 'package:shop_app/screens/edit_profile_screen.dart';
 import 'package:shop_app/screens/login_screen.dart';
 
 import '../bloc/cubit/profile_cubit.dart';
@@ -85,6 +86,19 @@ class SettingsScreen extends StatelessWidget {
                       fontWeight: FontWeight.normal,
                       color: Colors.black),
                 ),
+              ),
+              GestureDetector(
+                child: const ListTile(
+                  leading: Icon(Icons.edit, color: Colors.black, size: 32,),
+                  title: Text(
+                    'Edit Profile',
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
+                ),
+                onTap: () => Navigator.pushNamed(context, EditProfile.routeName),
               ),
               BlocConsumer<ShopAuthCubit, ShopAuthStates>(
                 listener: (context, state) {},

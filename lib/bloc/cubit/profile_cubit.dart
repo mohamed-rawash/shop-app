@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/bloc/states/profile_states.dart';
 import 'package:shop_app/helper/dio_helper.dart';
@@ -14,13 +15,16 @@ class ProfileCubit extends Cubit<ProfileStates> {
 
   String? _token;
   Profile? userInfo;
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
 
-  void getToken(){
+  void getToken() {
     _token = CacheHelper.getData(key: 'token');
     emit(GetTokenState());
   }
 
-  getUserInfo () {
+  getUserInfo() {
     emit(ProfileLoadingState());
     try {
       DioHelper.getData(
@@ -28,13 +32,44 @@ class ProfileCubit extends Cubit<ProfileStates> {
         token: _token,
       ).then((value) {
         userInfo = Profile.fromJson(value.data);
-        print('-+- ' * 10 );
+        nameController.text = userInfo!.userData!.name!;
+        emailController.text = userInfo!.userData!.email!;
+        phoneController.text = userInfo!.userData!.phone!;
+        print('-+- ' * 10);
         print(userInfo!.userData!.name);
-        print('-+- ' * 10 );
+        print(nameController.text);
+        print(emailController.text);
+        print(phoneController.text.isEmpty);
+        print('-+- ' * 10);
         emit(ProfileSuccessState());
       });
-    } catch(e) {
+    } catch (e) {
       emit(ProfileErrorState());
     }
+  }
+
+  updateUserInfo() {
+    emit(ProfileUpdateLoadingState());
+    DioHelper.putData(
+      url: update,
+      data: {
+        'name': nameController.text,
+        'email': emailController.text,
+        'phone': phoneController.text
+      },
+      token: _token,
+    )
+        .then(
+          (value) {
+            userInfo = Profile.fromJson(value.data);
+            emit(ProfileUpdateSuccessState());
+          },
+        )
+        .catchError(
+          (error) {
+            print("Error => " + error.toString());
+            emit(ProfileUpdateErrorState());
+          },
+        );
   }
 }

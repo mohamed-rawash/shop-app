@@ -6,6 +6,7 @@ import 'package:shop_app/bloc/cubit/onboarding_cubit.dart';
 import 'package:shop_app/bloc/cubit/profile_cubit.dart';
 import 'package:shop_app/bloc/states/onboarding_states.dart';
 import 'package:shop_app/helper/dio_helper.dart';
+import 'package:shop_app/screens/edit_profile_screen.dart';
 import 'package:shop_app/screens/home.dart';
 import 'package:shop_app/screens/login_screen.dart';
 import 'package:shop_app/screens/on_boarding_screen.dart';
@@ -69,6 +70,7 @@ class MyApp extends StatelessWidget {
               OnBoardingScreen.routeName: (_) => OnBoardingScreen(),
               LoginScreen.routeName: (_) => LoginScreen(),
               RegisterScreen.routeName: (_) => RegisterScreen(),
+              EditProfile.routeName: (_) => const EditProfile(),
             },
           );
         }
