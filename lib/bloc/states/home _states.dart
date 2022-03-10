@@ -13,3 +13,5 @@ class ShopHomeSuccessesState extends ShopHomeStates {}
 class ShopHomeErrorState extends ShopHomeStates {}
 
 class ShopHomeGetTokenState extends ShopHomeStates {}
+
+class ShopHomeSearchState extends ShopHomeStates {}

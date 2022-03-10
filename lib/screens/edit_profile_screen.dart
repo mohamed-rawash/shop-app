@@ -18,10 +18,10 @@ class EditProfile extends StatelessWidget {
       listener: (context, state) async {
         if(state is ProfileUpdateSuccessState) {
           if(ProfileCubit.get(context).userInfo!.status!){
-            await ToastService.toast(context, ProfileCubit.get(context).userInfo!.message!, Colors.greenAccent);
+            ToastService.toast(context, ProfileCubit.get(context).userInfo!.message!, Colors.greenAccent);
             Navigator.pop(context);
           }else {
-            await ToastService.toast(context, ProfileCubit.get(context).userInfo!.message!, Colors.red);
+            ToastService.toast(context, ProfileCubit.get(context).userInfo!.message!, Colors.red);
             ProfileCubit.get(context).getUserInfo();
             Navigator.pop(context);
           }

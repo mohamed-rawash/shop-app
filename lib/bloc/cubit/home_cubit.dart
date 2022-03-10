@@ -41,6 +41,8 @@ class HomeCubit extends Cubit<ShopHomeStates>{
   HomeModel? homeModel;
   String? _token;
   Map<int, bool> favorites = {};
+  String? query;
+  List<ProductModel> searchedItems = [];
 
   void changeBottomNavIndex(int index){
     currentIndex = index;
@@ -68,5 +70,10 @@ class HomeCubit extends Cubit<ShopHomeStates>{
       print(e.toString());
       emit(ShopHomeErrorState());
     });
+  }
+
+  getSearchData() {
+    searchedItems = homeModel!.data!.products.where((element) => element.name!.toLowerCase().startsWith(query!.toLowerCase())).toList();
+    emit(ShopHomeSearchState());
   }
 }

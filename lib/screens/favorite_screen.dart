@@ -66,24 +66,14 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
           ): const Center(
             child: LoadingIndicator(
                 indicatorType: Indicator.ballScaleMultiple,
-
-                /// Required, The loading type of the widget
                 colors: [
                   Colors.blue,
                   Colors.purpleAccent,
                   Colors.red,
                 ],
-
-                /// Optional, The color collections
                 strokeWidth: 0.2,
-
-                /// Optional, The stroke of the line, only applicable to widget which contains line
                 backgroundColor: Colors.transparent,
-
-                /// Optional, Background of the widget
                 pathBackgroundColor: Colors.white
-
-              /// Optional, the stroke backgroundColor
             ),
           ),
         ),
